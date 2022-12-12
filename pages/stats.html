@@ -1,147 +1,181 @@
-<!DOCTYPE html>
-<html lang="en">
+    <!DOCTYPE html>
+    <html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-    <link rel="stylesheet" href="../styles/style.css">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+            integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+        <link rel="stylesheet" href="../styles/style.css">
 
-</head>
+    </head>
 
-<body>
+    <body>
 
-    <header class="row">
-        <nav class="navbar bg-light col-md-12"  >
-            <a class="navbar-brand" href="#">
-                <img src="../assets/Logo_Amazing_Events.png" alt="Bootstrap" width="300" height="24">
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-              </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="nav justify-content-end">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="../index.html">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="./upComing.html">Upcoming Events</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="./pastEvents.html">Past Events</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link " href="./contact.html">Contact</a>
-                    </li>
+        <header class="row">
+            <nav class="navbar bg-light col-md-12"  >
+                <a class="navbar-brand" href="#">
+                    <img src="../assets/Logo_Amazing_Events.png" alt="Bootstrap" width="300" height="24">
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="nav justify-content-end">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="../index.html">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="./upComing.html">Upcoming Events</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="./pastEvents.html">Past Events</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link " href="./contact.html">Contact</a>
+                        </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link " href="./stats.html">Stats</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link " href="./country.html">Countries</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link " href="./detail.html">Detail</a>
-                    </li>
-                </ul>
+                        <li class="nav-item">
+                            <a class="nav-link " href="./stats.html">Stats</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link " href="./country.html">Countries</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link " href="./detail.html">Detail</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <a src="..." class="d-block w-100" alt="...">Upcoming Events</a>
+                    </div>
+
+                </div>
+                <button class="carousel-control-prev" type="button">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
             </div>
-        </nav>
-        <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
-            <div class="carousel-inner">
-                <div class="carousel-item active">
-                    <a src="..." class="d-block w-100" alt="...">Upcoming Events</a>
+        </header>
+
+        <main class="container-main">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th><h2> Event statistics </h2></th>
+                    <tr>
+                        <th scope="col">Events with the highest percentage of attendance</th>
+                        <th scope="col">Events with the lowest percentage of attendance</th>
+                        <th scope="col">Event with larger capacity</th>
+                    </tr>
+                </tr>
+                </thead>
+                <tbody id="evnt-stats">
+                   
+
+             
+                </tbody>
+            </table>
+
+            
+
+
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th scope="col">Upcoming Events statistics by category</th>
+
+                        <tr>
+                                <th scope="col">Categories</th>
+                                <th scope="col">Revenues</th>
+                                <th scope="col">Percentage of attendance</th>
+                                
+                            </tr>
+                      </tr>
+                </tr>
+                </thead>
+                <tbody id="past-stats">
+                   
+
+             
+                </tbody>
+            </table>
+
+
+            
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th scope="col">Past Events statistics by category</th>
+                
+                    <tr>
+                        <th scope="col">Categories</th>
+                        <th scope="col">Revenues</th>
+                        <th scope="col">Percentage of attendance</th>
+                        
+                    </tr>
+                </tr>
+                </thead>
+                <tbody id="upc-stats">
+                   
+
+             
+                </tbody>
+            </table>
+
+
+
+
+            </main>
+        <footer class="text-center text-lg-start bg-secondary text-muted ">
+            <!-- Section: Social media -->
+            <section class="d-flex justify-content-center justify-content-lg-between p-4 border-bottom">
+                <!-- Left -->
+                <div class="me-5 d-none d-lg-block">
+                    <a href="" class="me-4 link-secondary">
+
+                        <img class="social-media" src="../assets/facebook.png">
+                    </a>
+                    <a href="" class="me-4 link-secondary">
+                        <img class="social-media" src="../assets/instagram.png">
+                    </a>
+                    <a href="" class="me-4 link-secondary">
+
+                        <img class="social-media" src="../assets/whatsapp.png">
+                    </a>
                 </div>
 
-            </div>
-            <button class="carousel-control-prev" type="button">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
-            </button>
-        </div>
-    </header>
+                <div>
+                    <h3 href="" class="me-4 link-secondary">
+                        Cohord
+                    </h3>
 
-    <main class="container-main">
-        <table class="table table-hover">
-            <thead>
-              <tr>
-                <th><h2> Event statistics </h2></th>
-                <tr>
-                      <th scope="col">Events with the highest percentage of attendance</th>
-                      <th scope="col">Events with the lowest percentage of attendance</th>
-                      <th scope="col">Event with larger capacity</th>
-                  </tr>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-              </tr>
-              <tr>
-                <th scope="row">2</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
-              </tr>
-              <tr>
-                <th scope="row">3</th>
-                <td colspan="2">Larry the Bird</td>
-                <td>@twitter</td>
-              </tr>
-            </tbody>
-          </table>
+                </div>
+                <!-- Right -->
+            </section>
 
-       
-    </main>
-    <footer class="text-center text-lg-start bg-secondary text-muted ">
-        <!-- Section: Social media -->
-        <section class="d-flex justify-content-center justify-content-lg-between p-4 border-bottom">
-            <!-- Left -->
-            <div class="me-5 d-none d-lg-block">
-                <a href="" class="me-4 link-secondary">
-
-                    <img class="social-media" src="../assets/facebook.png">
-                </a>
-                <a href="" class="me-4 link-secondary">
-                    <img class="social-media" src="../assets/instagram.png">
-                </a>
-                <a href="" class="me-4 link-secondary">
-
-                    <img class="social-media" src="../assets/whatsapp.png">
-                </a>
-            </div>
-
-            <div>
-                <h3 href="" class="me-4 link-secondary">
-                    Cohord
-                </h3>
-
-            </div>
-            <!-- Right -->
-        </section>
-
-    </footer>
-    <!-- Footer -->
+        </footer>
+        <!-- Footer -->
 
 
 
-</body>
-<!-- JavaScript Bundle with Popper -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
-    crossorigin="anonymous"></script>
+    </body>
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+        crossorigin="anonymous"></script>
 
 
 
-    <script src="../js/main.js"></script>
+        <script src="../js/main.js"></script>
 
-</html>
+    </html>

@@ -57,7 +57,7 @@ const elemcard = (event, href) => {
             </div>
             <div class="card_price_detail">
                 <p class="card_price">Price: $ ${event.price}</p>
-                <a href=${href}  class="card_button">View Detail</a>
+                <a href="${href}" id="${event.name}" class="card_button">View Detail</a>
             </div>
     
       
@@ -65,6 +65,26 @@ const elemcard = (event, href) => {
             
             `
 }
+//
+const cardDetail = (event) => {
+    return `
+    <div class="card mb-3" style="max-width: 540px;">
+    <div class="row g-0">
+        <div class="col-md-4">
+            <img src="${event.image}" class="card-img-top" alt="...">
+        </div>
+        <div class="col-md-8">
+            <div class="card-body">
+                <h5 class="card-title">${event.name}</h5>
+                <p class="card-text">${event.description}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    `
+}
+
 
 const noneResult = () => {
     return `
@@ -75,42 +95,23 @@ const noneResult = () => {
     `
 }
 
-const cardTable = (name)  => {
-    return `
-            <th scope="row">${ name}</th>
-    
-        
-    `
+
+
+const cardTable = (rw, name)  => {
+    rw.insertAdjacentHTML("beforeend", `<th scope="row">${name}</th>`);
+
 }
 
 
 
-//getPrAssist();
-
-//obtengo los datos y desde aca decido donde lo inserto
 const getElemByPage = async (data, href) => {
-    /*  
-      */
 
-
-    //espero y obtengo los elementos
     let events = await data;
-    console.log(events);
 
-
-    //mando a iterar los elementos
+   // console.log(events);
     InsertEvents(events,href);
-
-    events.events.map(event => {
-
-
-
-        // cardContainer.insertAdjacentHTML("beforeend", elemcard(event,href));
-
-    })
-    //cardContainer.insertAdjacentHTML("beforeend", noneResult())
     eventFiltroCheck();
-    viewDetail();
+    
 
 }
 
@@ -119,28 +120,51 @@ const getElemByPage = async (data, href) => {
 const InsertEvents = (events, href) => {
     let cardContainer = document.querySelector('.container-cards');
     let checks = []
-    events.events.map(event => {
+    events.map(event => {
         //separar en categorias
         getChecks(event, checks);
         cardContainer.insertAdjacentHTML("beforeend", elemcard(event,href));
-
-        
     })
+    viewDetail(events);
 }
+//show details
+const viewDetail = (events ) => {
+    //get all cards
+    let cards = document.querySelectorAll('.card');
 
-const viewDetail = (event) => {
-    const listItem = document.getElementsByClassName('card  col-md-6');
+    //add event to button view detail
+    cards.forEach((card) => {
+        card.addEventListener('click', (event) => {
+            
 
-    Array.from(listItem).forEach((item) => {
-        item.querySelector('.card_button').addEventListener('click', () => {
-            //obtengo el objeto
-            data.eventos.map((event) => {
-                console.log(event.category);
-            })
+            //search event by name
+            let eventDetail = getEventForName(event.target.id, events);
+            //save event in localstorage
+            localStorage.setItem('event', JSON.stringify(eventDetail));
+
+            //redirect to detail page
+            window.location.href = "detail.html";
         })
-    })
+    } )
+
+
 }
 
+const getEventForName = (name , events) => {
+    let event = events.find(event => event.name == name);
+    return event;
+}
+
+
+
+const insertDetails = () => {
+    let cardContainer = document.querySelector('.container-detail');
+    let obj = JSON.parse(localStorage.getItem('event'));
+    cardContainer.insertAdjacentHTML("beforeend", cardDetail(obj));
+
+
+
+}
 const eventFiltroCheck = (event) => {
     const listItem = document.getElementsByClassName('card  col-md-6');
 
@@ -171,7 +195,6 @@ const eventFiltroCheck = (event) => {
 
             valCheck = event.target.value;
 
-            console.log(checksChecked);
 
             //recorro los elementos
             Array.from(listItem).forEach((item) => {
@@ -212,7 +235,6 @@ const eventFiltroCheck = (event) => {
         //obtengo el valor del item
         valItem = item.querySelector('label').textContent;
         //comparo los valores
-        console.log(checksChecked.includes(valItem));
         if (checksChecked.includes(valItem)) {
             item.style.display = 'none';
         }
@@ -230,6 +252,7 @@ const getChecks = (event, checks,) => {
 
 }
 
+//como ??
 
 
 
@@ -237,20 +260,36 @@ const getChecks = (event, checks,) => {
 
 /* consultas async */
 
-
-//get events to data.json
 const getAllEvents = async () => {
-    //fetch
     const res = await fetch('../js/data.json');
-    //get data
     const data = await res.json();
     return data;
 }
 
-//get all past events
+//get events to data.json
+const getEventsCondition = async (type) => {
+    let evt;
+    //fetch
+    const data = await getAllEvents()
+
+    //pregunto si el type esta definido
+    if (type) {
+
+         evt = getAllTypeEvents(data, type) ;
+
+    }else{
+        //si no esta definido, retorno todos los eventos
+        evt = data.events;
+    }
+    return evt;
+}
+
+
+
 const getAllTypeEvents = (evnt, type) => {
     let events = [];
     let fecha = evnt.currentDate;
+    //console.log(evnt);
     //recorro
     evnt.events.forEach((event) => {
         //pregunto si la fecha del evento es menor a la fecha actual
@@ -278,19 +317,17 @@ const getAllAsistence = (events) => {
     let allAsistence = 0;
 
 
-    events.events.forEach((event) => {
+    events.forEach((event) => {
         let assistance = event.assistance || event.estimate;
 
         allAsistence += Number(assistance);
-
-
-
     })
 
-    //obtengo la media de asistencia
     return allAsistence;
 
 }
+
+//aca se empieza como a separar mucho
 
 const getPercentajeAssistance = (event, totAsist) => {
     let percentaje;
@@ -306,7 +343,7 @@ const getPrAssist = (events) => {
     let getAssists = [];
 
     //recorro los eventos
-    events.events.forEach((event) => {
+    events.forEach((event) => {
         let eventAsist = event.assistance || event.estimate;
         getAssists.push(
             {
@@ -323,43 +360,35 @@ const getPrAssist = (events) => {
 
 }
 
-
-const obtener10porc = (arr, atr, ord) => {
-
-    //10% de los eventos
-    let porc = arr.length * 0.1;
+//tambien el echo de pasar muchos atributos por parametro
+const obtener10porc = (obj, atr, ord) => {
+    let porc = 0;
+    console.log(obj.length);
+    
+    porc = obj.length * 0.1;
+    
     //redondeo hacia arriba
     porc = Math.ceil(porc);
 
 
-    let arr2 = ordValores(arr, atr, ord);
-    arr2.splice(porc, arr.length)
+    let arr2 = ordValores(obj, atr, ord);
+    arr2.splice(porc, obj.length)
     //mayor a menor
 
+    //esto creo q esta mal
     arr2.reverse()
     return arr2;
+
+    
 }
 
 const ordValores = (arr, atr, ord) => {
 
     let arr2 = arr;
-    /* HARD CODEADO
-    if (ord == 'asc') {
-        arr2.sort((a,b) => b.capacity - a.capacity);
-        console.log(atr);
+    //esto me tubo casi todo el finde pensando xd
 
-    }else if(ord == 'desc'){
-        arr2.sort((a,b) => a.capacity - b.capacity);
-        console.log(atr);
-
-    }
-        arr2.forEach((event) => {
-            console.log(event[atr]);
-        })
-    */
     arr2.sort((a, b) => {
-        let x = a[atr];
-        let y = b[atr];
+      
         if (ord == 'asc') {
             return b[atr] - a[atr];
         } else if (ord == 'desc') {
@@ -374,48 +403,46 @@ const ordValores = (arr, atr, ord) => {
 //obtengo los stats
 const getStats = async (ev) => {
 
-    let events = await ev;
+    let events = await  ev;
+
     console.log(events);
-    
-    
-    let pastEvents = getAllTypeEvents(events, 'past');
+    let pastEvents = getAllTypeEvents(events , 'past');
+    console.log(pastEvents);
     let upcomingEvents = getAllTypeEvents(events, 'upcoming');
     
-    setDatosTableOne(events);
+    setDatosTableOne(events.events);
+
     
     setDatosTableTwo(pastEvents , 'past-stats');
 
-    setDatosTableTwo(upcomingEvents , 'upc-stats' );
+   setDatosTableTwo(upcomingEvents , 'upc-stats' );
     
 }
 
 
+
+
 const setDatosTableOne = (evt) => {
-   
     let hgPerc = obtener10porc (getPrAssist(evt), 'percentaje', 'asc');
     let lwpercent = obtener10porc (getPrAssist(evt), 'percentaje', 'desc');
-    let capacity = obtener10porc(evt.events, 'capacity', 'asc');
+    let capacity = obtener10porc(evt, 'capacity', 'asc');
     let indices = hgPerc.length;
 
-    console.log(capacity);
-
-
     //recorro el array
-    for (let i = 0; i < indices; i++) {
+    for (let i = 0; i < indices ; i++) {
         let v1= `${hgPerc[i].name}  -  ${hgPerc[i].percentaje}` ;
         let v2= `${lwpercent[i].name}  -  ${lwpercent[i].percentaje}` ;
         let v3 =`${capacity[i].name}  -  ${capacity[i].capacity}` ;
 
-        insertTable( v1,v2,v3, 'evnt-stats'  )
+        insertTable( v1,v2,v3, 'evnt-stats')
     }
-
-    
 
 }
 
 const setDatosTableTwo = (evt , tbl) =>{
     let categorys = [];
     let arr2 = [];
+    console.log(evt);
     evt.forEach((event) => {
         let cat = event.category;
         if (!categorys.includes(cat)) {
@@ -430,7 +457,6 @@ const setDatosTableTwo = (evt , tbl) =>{
                 percentAudenc: getPrByAudience(evt, cat)
             });
         })
-        console.log(arr2);
     arr2.forEach((e) => {
         insertTable(e.category, e.percent, e.percentAudenc, tbl);
     })
@@ -480,46 +506,55 @@ const getPrByPrice = (events, cat) => {
 
 
 const insertTable = (cel1,cel2,cel3, event) => {
+        //obtengo el id de la table
     let tblStat = document.getElementById(event);
 
     
-    console.log(  cel3);
-    //inserto en la tabla
+
     let rw = tblStat.insertRow(0);
-    rw.insertAdjacentHTML("beforeend", cardTable(cel1));
 
-    rw.insertAdjacentHTML("beforeend", cardTable(cel2));
-
-    rw.insertAdjacentHTML("beforeend", cardTable(cel3));
+    
+    //asi me gusta mas , igual ahora te muestro la consola
+    cardTable(rw , cel1);
+    cardTable(rw , cel2);
+    cardTable(rw , cel3);
+    //siento que de a ratos esta todo hard codeado y  en otro todo separado en funciones
 
 }
 
+
+//ven ?? asi me gusta mas ?? 
 const nav = () => {
     let URLactual = window.location.pathname.split('/').pop();
 
     switch (URLactual) {
-        //envio el getAllEvents
+        //envio el getEventsCondition
         case 'index.html':
-            getElemByPage(getAllEvents(), "./pages/details.html");
+            getElemByPage(getEventsCondition(), "./pages/details.html");
             break;
 
         case 'upComing.html':
-            getElemByPage(getAllEvents(), "../pages/details.html");
+            getElemByPage(getEventsCondition('upcoming'), "../pages/details.html");
             break;
-
         case 'pastEvents.html':
-            getElemByPage(getAllEvents(), "../pages/details.html");
+            getElemByPage(getEventsCondition('past'), "../pages/details.html");
             break;
-
+        case 'details.html':
+                
+                insertDetails();
+        
+            break;
+            
         case 'stats.html':
             getStats(getAllEvents());
             break;
         default:
-            getStats();
+           // getStats();
             //getElemByPage(data.eventos,"./pages/details.html");
             break;
 
     }
 }
-
 nav();
+
+
